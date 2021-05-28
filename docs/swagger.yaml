@@ -1,0 +1,115 @@
+definitions:
+  main.addCustomerResp:
+    properties:
+      status:
+        type: string
+    type: object
+  main.authParam:
+    properties:
+      customercode:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  main.authResp:
+    properties:
+      sessionkey:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: persrc@gmail.com
+    name: Periyasamy Chinnasamy
+  description: Erply middleware swagger implementation in Go HTTP
+  title: Erply Middleware API
+  version: "1.0"
+paths:
+  /customer/add:
+    post:
+      consumes:
+      - application/json
+      description: Add Customer
+      operationId: customer-data
+      parameters:
+      - description: get customer filter
+        in: body
+        name: customer
+        required: true
+        schema:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.addCustomerResp'
+      security:
+      - AuthKey: []
+      summary: Add Customer details
+      tags:
+      - customer
+  /customer/get:
+    post:
+      consumes:
+      - application/json
+      description: Get Customer
+      operationId: customer-datainfo
+      parameters:
+      - description: Get Customer details
+        in: body
+        name: customer
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+      security:
+      - AuthKey: []
+      summary: Get Customer details
+      tags:
+      - customer
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Auth Login
+      operationId: auth-login
+      parameters:
+      - description: Auth Login Input
+        in: body
+        name: authLogin
+        required: true
+        schema:
+          $ref: '#/definitions/main.authParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.authResp'
+      summary: Auth Login
+      tags:
+      - auth
+securityDefinitions:
+  AuthKey:
+    in: header
+    name: sessionkey
+    type: apiKey
+swagger: "2.0"

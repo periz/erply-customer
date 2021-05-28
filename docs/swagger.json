@@ -1,0 +1,178 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Erply middleware swagger implementation in Go HTTP",
+        "title": "Erply Middleware API",
+        "contact": {
+            "name": "Periyasamy Chinnasamy",
+            "email": "persrc@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/customer/add": {
+            "post": {
+                "security": [
+                    {
+                        "AuthKey": []
+                    }
+                ],
+                "description": "Add Customer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "Add Customer details",
+                "operationId": "customer-data",
+                "parameters": [
+                    {
+                        "description": "get customer filter",
+                        "name": "customer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.addCustomerResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/get": {
+            "post": {
+                "security": [
+                    {
+                        "AuthKey": []
+                    }
+                ],
+                "description": "Get Customer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "customer"
+                ],
+                "summary": "Get Customer details",
+                "operationId": "customer-datainfo",
+                "parameters": [
+                    {
+                        "description": "Get Customer details",
+                        "name": "customer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Auth Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Auth Login",
+                "operationId": "auth-login",
+                "parameters": [
+                    {
+                        "description": "Auth Login Input",
+                        "name": "authLogin",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.authParam"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.authResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.addCustomerResp": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.authParam": {
+            "type": "object",
+            "properties": {
+                "customercode": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.authResp": {
+            "type": "object",
+            "properties": {
+                "sessionkey": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "AuthKey": {
+            "type": "apiKey",
+            "name": "sessionkey",
+            "in": "header"
+        }
+    }
+}
